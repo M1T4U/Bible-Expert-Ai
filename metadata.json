@@ -1,0 +1,6 @@
+{
+  "name": "Bible Expert AI",
+  "description": "An AI-powered chat application that answers questions based on the Bible, providing relevant verses and explanations. It acts as a knowledgeable and respectful assistant for biblical inquiries.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

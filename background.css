@@ -1,0 +1,312 @@
+/*
+  Futuristic Blockchain/Vite-inspired Background
+  - A deep space, digital grid.
+  - Flowing particles and data streams.
+  - Subtle hexagonal/honeycomb overlay.
+  - Dominant blue-green color palette with glow effects.
+*/
+
+/* --- Base Keyframes --- */
+
+@keyframes particle-flow {
+  from {
+    transform: translateY(100vh) scale(var(--particle-size));
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100vh) scale(var(--particle-size));
+    opacity: 0;
+  }
+}
+
+@keyframes grid-pan {
+    0% { background-position: 0 0; }
+    100% { background-position: 500px 500px; }
+}
+
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- Notification Animation --- */
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.5s ease-out forwards;
+}
+
+
+/* --- Main Background Setup --- */
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out, background-color 0.3s ease-in-out;
+  
+  /* Shared base background color */
+  background-color: #020617; /* Tailwind slate-950 */
+}
+
+body.loaded .background-animation {
+  opacity: 1;
+}
+
+/* Create the digital grid using pseudo-elements */
+.background-animation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(to right, rgba(20, 184, 166, 0.2) 1px, transparent 1px), /* Vertical lines */
+        linear-gradient(to bottom, rgba(20, 184, 166, 0.2) 1px, transparent 1px); /* Horizontal lines */
+    background-size: 50px 50px;
+    animation: grid-pan 30s linear infinite;
+    transform: perspective(500px) rotateX(60deg);
+    transform-origin: bottom center;
+    opacity: 0.5;
+}
+
+/* Create the subtle hexagonal overlay */
+.background-animation::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #14b8a6; /* gospel-cyan-600 */
+    background-image:
+      radial-gradient(circle at 100% 150%, #14b8a6 24%, #0000 25%, #0000 28%, #14b8a6 29%, #14b8a6 36%, #0000 37%, #0000 40%, #0000 41%, #14b8a6 42%),
+      radial-gradient(circle at 0% 150%, #14b8a6 24%, #0000 25%, #0000 28%, #14b8a6 29%, #14b8a6 36%, #0000 37%, #0000 40%, #0000 41%, #14b8a6 42%),
+      radial-gradient(circle at 100% 50%, #0000 4%, #14b8a6 5%, #14b8a6 12%, #0000 13%, #0000 16%, #0000 17%, #14b8a6 18%),
+      radial-gradient(circle at 0% 50%, #0000 4%, #14b8a6 5%, #14b8a6 12%, #0000 13%, #0000 16%, #0000 17%, #14b8a6 18%),
+      radial-gradient(circle at 100% -50%, #14b8a6 24%, #0000 25%, #0000 28%, #14b8a6 29%, #14b8a6 36%, #0000 37%, #0000 40%, #0000 41%, #14b8a6 42%),
+      radial-gradient(circle at 0% -50%, #14b8a6 24%, #0000 25%, #0000 28%, #14b8a6 29%, #14b8a6 36%, #0000 37%, #0000 40%, #0000 41%, #14b8a6 42%);
+    background-size: 100px 100px;
+    opacity: 0.05;
+    mix-blend-mode: screen;
+}
+
+
+/* Re-purpose aurora layers for flowing particles */
+.aurora-layer {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  animation: particle-flow linear infinite;
+  background-color: #67e8f9; /* gospel-glow */
+  box-shadow: 0 0 10px #67e8f9, 0 0 20px #67e8f9, 0 0 30px #14b8a6;
+}
+
+/* Individual particle settings for variety */
+.aurora-layer:nth-child(1) {
+  left: 10%;
+  --particle-size: 2px;
+  animation-duration: 15s;
+  animation-delay: -2s;
+}
+
+.aurora-layer:nth-child(2) {
+  left: 45%;
+  --particle-size: 3px;
+  animation-duration: 20s;
+  animation-delay: -8s;
+}
+
+.aurora-layer:nth-child(3) {
+  left: 80%;
+  --particle-size: 2.5px;
+  animation-duration: 12s;
+  animation-delay: -15s;
+}
+
+/* Light theme adjustments - make background lighter */
+.light .background-animation {
+  background-color: #f0fdfa; /* Tailwind teal-50 */
+}
+.light .background-animation::before {
+    background-image:
+        linear-gradient(to right, rgba(45, 212, 191, 0.4) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(45, 212, 191, 0.4) 1px, transparent 1px);
+    opacity: 0.3;
+}
+.light .background-animation::after {
+    opacity: 0.08;
+    background-color: #a7f3d0; /* a light green */
+    background-image: /* Same hex pattern but with a lighter color */
+      radial-gradient(circle at 100% 150%, #a7f3d0 24%, #0000 25%, #0000 28%, #a7f3d0 29%, #a7f3d0 36%, #0000 37%, #0000 40%, #0000 41%, #a7f3d0 42%),
+      radial-gradient(circle at 0% 150%, #a7f3d0 24%, #0000 25%, #0000 28%, #a7f3d0 29%, #a7f3d0 36%, #0000 37%, #0000 40%, #0000 41%, #a7f3d0 42%),
+      radial-gradient(circle at 100% 50%, #0000 4%, #a7f3d0 5%, #a7f3d0 12%, #0000 13%, #0000 16%, #0000 17%, #a7f3d0 18%),
+      radial-gradient(circle at 0% 50%, #0000 4%, #a7f3d0 5%, #a7f3d0 12%, #0000 13%, #0000 16%, #0000 17%, #a7f3d0 18%),
+      radial-gradient(circle at 100% -50%, #a7f3d0 24%, #0000 25%, #0000 28%, #a7f3d0 29%, #a7f3d0 36%, #0000 37%, #0000 40%, #0000 41%, #a7f3d0 42%),
+      radial-gradient(circle at 0% -50%, #a7f3d0 24%, #0000 25%, #0000 28%, #a7f3d0 29%, #a7f3d0 36%, #0000 37%, #0000 40%, #0000 41%, #a7f3d0 42%);
+}
+.light .aurora-layer {
+    background-color: #2dd4bf; /* gospel-cyan-500 */
+    box-shadow: 0 0 8px #2dd4bf, 0 0 15px #2dd4bf;
+}
+
+
+/* --- App Title Aesthetic --- */
+.app-title-gradient {
+  background: linear-gradient(95deg, #22d3ee, #34d399, #67e8f9, #22d3ee); /* Stunning Blue-Green Vite-Tech Gradient */
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  animation: gradient-flow 8s linear infinite;
+  letter-spacing: 0.05em; /* Add a bit of spacing for a premium feel */
+}
+
+/* A reusable gradient for smaller text elements like the footer attribution */
+.text-gradient-vite {
+  background: linear-gradient(95deg, #22d3ee, #34d399, #67e8f9, #22d3ee);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  animation: gradient-flow 8s linear infinite;
+}
+
+.dark .app-title-gradient {
+  filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.5)); /* Cyan glow */
+}
+
+.light .app-title-gradient {
+   filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.3)); /* Lighter cyan glow */
+}
+
+/* Style for the header icon */
+.header-icon {
+  transition: color 0.3s ease;
+}
+
+.dark .header-icon {
+  color: #67e8f9; /* gospel-glow */
+  filter: drop-shadow(0 0 8px rgba(103, 232, 249, 0.7));
+}
+.light .header-icon {
+  color: #14b8a6; /* gospel-cyan-600 */
+   filter: drop-shadow(0 0 6px rgba(20, 184, 166, 0.5));
+}
+
+
+/* --- Shared Styles from Original --- */
+
+/* This class is the container for AI-generated text. It no longer applies a gradient directly. */
+.highlight-verse {
+  /* It now acts as a hook for its children and the drop-shadow effect. */
+}
+
+/* The gradient is now applied ONLY to bolded text (strong tags). */
+.highlight-verse strong {
+  background: linear-gradient(90deg, #14b8a6, #67e8f9, #14b8a6);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  animation: gradient-flow 5s ease-in-out infinite;
+  font-weight: 700;
+}
+
+/* Other elements like links and lists get standard, readable colors. */
+.highlight-verse a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+.dark .highlight-verse a { text-decoration-color: #67e8f9; }
+.light .highlight-verse a { text-decoration-color: #14b8a6; }
+.highlight-verse ul > li { padding-left: 1.5rem; position: relative; }
+.highlight-verse ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.6em; 
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    -webkit-text-fill-color: initial;
+    text-fill-color: initial;
+    background-color: #67e8f9; /* gospel-glow */
+}
+.dark .highlight-verse ul > li::before { box-shadow: 0 0 6px 1px #67e8f9; }
+
+/* Keep the cool drop shadow effect for the whole text block. */
+.dark .highlight-verse { filter: drop-shadow(0 0 10px rgba(103, 232, 249, 0.4)); }
+.light .highlight-verse { filter: drop-shadow(0 0 8px rgba(20, 184, 166, 0.3)); }
+
+.prose {
+  --tw-prose-body: inherit; --tw-prose-headings: inherit; --tw-prose-lead: inherit;
+  --tw-prose-links: inherit; --tw-prose-bold: inherit; --tw-prose-counters: inherit;
+  --tw-prose-bullets: inherit; --tw-prose-hr: inherit; --tw-prose-quotes: inherit;
+  --tw-prose-quote-borders: inherit; --tw-prose-captions: inherit; --tw-prose-code: inherit;
+  --tw-prose-pre-code: inherit; --tw-prose-pre-bg: transparent; --tw-prose-th-borders: inherit;
+  --tw-prose-td-borders: inherit;
+}
+.prose img {
+  border-radius: 0.75rem;
+  margin-top: 1rem; margin-bottom: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.dark .prose img { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -2px rgb(0 0 0 / 0.1); }
+@keyframes tech-pulse-glow {
+  0%, 100% {
+    background-size: 250% 250%; background-position: 0% 50%;
+    box-shadow: 0 0 5px var(--glow-color-1), 0 0 10px var(--glow-color-2);
+  }
+  50% {
+    background-size: 250% 250%; background-position: 100% 50%;
+    box-shadow: 0 0 10px var(--glow-color-1), 0 0 20px var(--glow-color-2);
+  }
+}
+.version-select-animated {
+  animation: tech-pulse-glow 4s ease-in-out infinite;
+  transition: background 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+  cursor: pointer;
+}
+.version-kjv {
+  background: linear-gradient(110deg, #0d9488, #0f766e, #67e8f9, #0d9488);
+  --glow-color-1: rgba(13, 148, 136, 0.7); --glow-color-2: rgba(103, 232, 249, 0.5);
+}
+.version-niv {
+  background: linear-gradient(110deg, #14b8a6, #2dd4bf, #a7f3d0, #14b8a6);
+  --glow-color-1: rgba(20, 184, 166, 0.7); --glow-color-2: rgba(167, 243, 208, 0.5);
+}
+.version-esv {
+  background: linear-gradient(110deg, #0891b2, #06b6d4, #22d3ee, #0891b2);
+  --glow-color-1: rgba(8, 145, 178, 0.7); --glow-color-2: rgba(34, 211, 238, 0.5);
+}
+.version-nlt {
+  background: linear-gradient(110deg, #10b981, #34d399, #6ee7b7, #10b981);
+  --glow-color-1: rgba(16, 185, 129, 0.7); --glow-color-2: rgba(110, 231, 183, 0.5);
+}
+.version-nkjv {
+  background: linear-gradient(110deg, #047857, #059669, #10b981, #047857);
+  --glow-color-1: rgba(4, 120, 87, 0.7); --glow-color-2: rgba(16, 185, 129, 0.5);
+}
